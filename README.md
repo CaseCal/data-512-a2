@@ -14,8 +14,14 @@ All code used is contained in the hcds-a2-bias.ipynb notebook. Running all cells
 ### Stages
 
 #### 1. Data Acquisition
-Page data from 2017 is downloaded as a csv from the Figshare repository. Population data is downloaded as a csv from the Population Reference Bureau. Both files are contained in the *data* folder of this repository, and are simply loaded in this step. See [Data](#data) section below for details on format and licensing.
+Page data from 2017 is downloaded as a csv from the Figshare repository. Population data is downloaded as a csv from the Population Reference Bureau. Both files are contained in the *data/raw* folder of this repository, and are simply loaded in this step. See [Data](#data) section below for details on format and licensing.
 
+#### 2. Data Processing
+
+##### Cleaning and Combining
+The page data is filtered to remove template pages, by removing all page names that start with "Template:". The population data is filtered on Type = Country to exclude the regional and worldwide data. The data is then merged, matching the "Name" field in the population data with the "country" field in the page data.
+
+Entries that could not be matched are removed and saved in the *data/unmatched* folder. Overall, 26 countries had no matching articles, and 1859 pages had no matching country. Unmatched pages appeared to be primarily those where teh country was inconsistently encoded as an adjective, such as "South Korean", "Salvadoran", and "Icelandic". This analysis could be improved by attempting to match more of these articles.
 
 
 ## Data
@@ -50,6 +56,5 @@ This data can be found in the *WPDS_2020_data* file in the *data* folder. It con
 
 #### Notes
 The date that the estimates were made and the specific source for each population count are unavailable. No license was included with the data.
-
 
 
