@@ -23,6 +23,12 @@ The page data is filtered to remove template pages, by removing all page names t
 
 Entries that could not be matched are removed and saved in the *data/unmatched* folder. Overall, 26 countries had no matching articles, and 1859 pages had no matching country. Unmatched pages appeared to be primarily those where teh country was inconsistently encoded as an adjective, such as "South Korean", "Salvadoran", and "Icelandic". This analysis could be improved by attempting to match more of these articles.
 
+##### ORES Quality Predictions
+The [ORES API](https://ores.wikimedia.org/v3/#) is used to collect the quality ratings for each article. We use  the "GET /v3/scores/{context}" endpoint, providing "enwiki" as context, "articlequality' as model and providing rev_ids in batches of 50.
+
+Out of 44680 articles, 274 did not return a prediction. These are saved in the *data/unmatched/page_data-no_prediction.csv* file, and removed from further analysis.
+
+On a computer with a 7-core CPU, 24GB RAM and 10Mbps ethernet connection, the API requests took approximately two minutes to complete. 
 
 ## Data
 
@@ -32,7 +38,7 @@ Entries that could not be matched are removed and saved in the *data/unmatched* 
 Page Data is collected from [this](https://figshare.com/articles/dataset/Untitled_Item/5513449) Figshare repository on 10/09/2021. Is is shared under the CC-BY-SA 4.0 License
 
 #### Description
-This data can be found in the *page_data.csv* file in the *data* folder. It contains three columns:
+This data can be found in the *page_data.csv* file in the *data/raw* folder. It contains three columns:
 1. "country": Santized country name.
 1. "page": Unsanitized page name.
 1. "last_edit": Edit ID of last page edit.
@@ -46,7 +52,26 @@ Although the repository was accessed in October 2021, it was posted in October 2
 Population data is collected on 10/09/2021 from the [World Population Data Sheet](https://www.prb.org/international/indicator/population/table/) hosted by the [Population Reference Bureau](https://www.prb.org/). This file contains national population estimates for 2020, "based on a recent census, official national data, or analyses conducted by national statistical offices, regional organizations, PRB, UN Population Division, or International Programs of the U.S. Census Bureau."
 
 #### Description
-This data can be found in the *WPDS_2020_data* file in the *data* folder. It contains three columns:
+This data can be found in the *WPDS_2020_data* file in the *data/raw* folder. It contains three columns:
+1. "FIPS": The [Federal Information Processing Standards](https://www.nist.gov/standardsgov/compliance-faqs-federal-information-processing-standards-fips) country code.
+1. "Name": Country name.
+1. "Type": Level of aggregration, one of "World", "Sub-Region", or "Country".
+1. "TimeFrame": Year of estimate.
+1. "Data (M)": Estimated population in millions.
+1. "Population": Estimated population.
+
+#### Notes
+The date that the estimates were made and the specific source for each population count are unavailable. No license was included with the data.
+
+### Unmatched data
+All data that was excluded from analysis due to missing matches is saved in the *data/unmatched* folder.
+
+1. **page_data-no_match.csv** Contains pages that could not be matched to a country. Columns are the same as [Page Data](#pagedata)
+1. **wp_wpds_countries-no_match.csv** Contains countries that had no associated pages. Columns are the same as [Population Data](#populationdata)
+1. **wp_wpds_politicians-no_prediction.csv** Contains pages that did not return a quality predictions from the ORES API.
+
+#### Description
+This data can be found in the *WPDS_2020_data* file in the *data/raw* folder. It contains three columns:
 1. "FIPS": The [Federal Information Processing Standards](https://www.nist.gov/standardsgov/compliance-faqs-federal-information-processing-standards-fips) country code.
 1. "Name": Country name.
 1. "Type": Level of aggregration, one of "World", "Sub-Region", or "Country".
