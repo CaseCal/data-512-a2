@@ -19,9 +19,9 @@ Page data from 2017 is downloaded as a csv from the Figshare repository. Populat
 #### 2. Data Processing
 
 ##### Cleaning and Combining
-The page data is filtered to remove template pages, by removing all page names that start with "Template:". The population data is filtered on Type = Country to exclude the regional and worldwide data. The data is then merged, matching the "Name" field in the population data with the "country" field in the page data.
+The page data is filtered to remove template pages, by removing all page names that start with "Template:". A new column is added to the population data containing the region, based on the most recent row in the dataset with Type of Sub-Region. Note that the row for Channel Islands has to be modified to be a Country instead of Sub-Region, otherwise all of Northern Europe becomes grouped under it. The population data is then filtered on Type = Country to exclude the regional and worldwide rows. The data is then merged, matching the "Name" field in the population data with the "country" field in the page data.
 
-Entries that could not be matched are removed and saved in the *data/unmatched* folder. Overall, 26 countries had no matching articles, and 1859 pages had no matching country. Unmatched pages appeared to be primarily those where teh country was inconsistently encoded as an adjective, such as "South Korean", "Salvadoran", and "Icelandic". This analysis could be improved by attempting to match more of these articles.
+Entries that could not be matched are removed and saved in the *data/unmatched* folder. Overall, 27 countries had no matching articles, and 1859 pages had no matching country. Unmatched pages appeared to be primarily those where teh country was inconsistently encoded as an adjective, such as "South Korean", "Salvadoran", and "Icelandic". This analysis could be improved by attempting to match more of these articles.
 
 ##### ORES Quality Predictions
 The [ORES API](https://ores.wikimedia.org/v3/#) is used to collect the quality ratings for each article. We use  the "GET /v3/scores/{context}" endpoint, providing "enwiki" as context, "articlequality' as model and providing rev_ids in batches of 50.
@@ -29,6 +29,24 @@ The [ORES API](https://ores.wikimedia.org/v3/#) is used to collect the quality r
 Out of 44680 articles, 274 did not return a prediction. These are saved in the *data/unmatched/page_data-no_prediction.csv* file, and removed from further analysis.
 
 On a computer with a 7-core CPU, 24GB RAM and 10Mbps ethernet connection, the API requests took approximately two minutes to complete. 
+
+### 3. Analysis
+Analysis is done using two metrics. Analysis result tables can be found in the notebook.
+
+1. **Coverage** The number of articles divided by the popuulation, shown in articles per million people. Does not take into consideration the quality of the articles.
+1. **Relative Quality** The proportion of articles that are of GA (Good Article) or FA (Featured Article) quality.
+
+
+#### Country
+Data is grouped by country, and sorted. The top 10 countries by coverage are generally small populations, and are all in Oceania or Europe. The bottom countries by coverage are generally large populations, such as India and China, and are all in Asia. Overall, coverage is impacted by size, with smaller countries having better coverage, but also seems to show a regional bias towards Europe and against Asia.
+
+Top countries with relative quality are more mixed, with North Korea at the top with 22% (8 of 36) articles of high quality, although this is liekly an outlier. Asia, Europe, and Africa are all respresented in the top 10. At the bottom, 37 countries tied with no high-quality articles. Sorting secondarily by article count provides the top 10 displayed, which are primarily North and Eastern Europe and Africa.
+
+#### Region
+Data is also aggregated by region. In this case, population is taken from the region's population data point in the original data source, and not as a sum of the popualtions in the final data file, in order to account for countries that had no articles.
+
+Regional bias is more apparent here, with Oceania and Europe topping the list and Asia at the bottom.
+
 
 ## Data
 
@@ -87,6 +105,17 @@ The remaining data after processing and removing missing values.
  1. "FA" = Featured Article
 
 
+## Considerations
+
+### Potential Problems
+1. As was noted, Channel Islands was incorrectly noted as a Sub-Region, and had to be manually corrected. It's possible that other such errors exist.
+1. Some pages had inconsistent country names as noted in the [Cleaning and Combining](#cleaning-and-combining) stage, and were excluded from the final calculations.
+1. Page data is from 2017, but ppopulation data is as-of 2019.
+1. Page data may not be reliable. For example, pages called "Political Positions of Jeb Bush" and "Bush Family" are included, but pages for the actual politions George H.W Bush, George Bush, and Jeb Bush are not. It may be that people with multiple categories/careers are not being captured as "ppoliticians", and this is actually making the most robust articles be missed.
+
+### Potential Next steps
+1. Quality and Coverage could be compared or merged into a weighted calculation.
+1. Some cleanup of page data could still be useful, as category and list pages are present.
 
 
 
