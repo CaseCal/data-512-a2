@@ -66,20 +66,27 @@ The date that the estimates were made and the specific source for each populatio
 ### Unmatched data
 All data that was excluded from analysis due to missing matches is saved in the *data/unmatched* folder.
 
-1. **page_data-no_match.csv** Contains pages that could not be matched to a country. Columns are the same as [Page Data](#pagedata)
-1. **wp_wpds_countries-no_match.csv** Contains countries that had no associated pages. Columns are the same as [Population Data](#populationdata)
-1. **wp_wpds_politicians-no_prediction.csv** Contains pages that did not return a quality predictions from the ORES API.
+1. **page_data-no_match.csv** Contains pages that could not be matched to a country. Columns are the same as [Page Data](#page-data)
+1. **wp_wpds_countries-no_match.csv** Contains countries that had no associated pages. Columns are the same as [Population Data](#population-data)
+1. **wp_wpds_politicians-no_prediction.csv** Contains pages that did not return a quality predictions from the ORES API. Columns are the same as [Processed Data](#processed-data)
+
+### Processed data
+The remaining data after processing and removing missing values.
 
 #### Description
-This data can be found in the *WPDS_2020_data* file in the *data/raw* folder. It contains three columns:
-1. "FIPS": The [Federal Information Processing Standards](https://www.nist.gov/standardsgov/compliance-faqs-federal-information-processing-standards-fips) country code.
-1. "Name": Country name.
-1. "Type": Level of aggregration, one of "World", "Sub-Region", or "Country".
-1. "TimeFrame": Year of estimate.
-1. "Data (M)": Estimated population in millions.
-1. "Population": Estimated population.
+1. "population": The country population from the [Population Data](#population-data).
+1. "page": Name of the Wikkipedia article.
+1. "country": Country that the politician in the referenced article belongs to.
+1. "revision_id": The article revision id used to get the quality estimate.
+1. "article_quality_est": Estimated article quality from ORES API. Values are in ascending order of quality 
+ 1. "stub"
+ 1. "start"
+ 1. "C"
+ 1. "B"
+ 1. "GA" = Good Article
+ 1. "FA" = Featured Article
 
-#### Notes
-The date that the estimates were made and the specific source for each population count are unavailable. No license was included with the data.
+
+
 
 
