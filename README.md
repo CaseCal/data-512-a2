@@ -47,6 +47,15 @@ Data is also aggregated by region. In this case, population is taken from the re
 
 Regional bias is more apparent here, with Oceania and Europe topping the list and Asia at the bottom.
 
+## Reflection and Implications
+
+Before beginning this project, I excepted to find material biases in the Wikipedia Page coverage and quality towards English-speaking countries and wealthier countries where internet access and education is more prevalent. The wealth bias was the msot apparent, with regions such as Europe generally showing more coverage and quality that regions such as Africa and Asia. Inter-regionally this was still true, as more developed Western Asian countries had better coverage than their less-developed counterparts in Southeast Asia. The English bias was actually not backed up in the data, with North America in general and the US in particular not among the highest peprformers. However, as discussed in the [consideratons](#considerations) section below, this may be due do some systematic errors in the page data.
+
+These results suggest that English Wikipedia is a biased data source. More importantly, they suggest that the bias is not only or primarily towards English-speaking countries, but potentially towards more developed countries. A use of Wikipedia as a data source with out accounting for this could be potentially misleading. For example, using Wikipedia to count the amount of noteworthy scientists from different regions would not be an accurate proxy, as this would be heavily biased towards scientists from better-covered areas. 
+
+That does not mean this data set is unusable. English Wikipedia probably closely mirrors more general public knowledge of English speakers, so any data usage within that context would still be viable. To revisit the example, Wikipedia could be used as a measure of how many noteworth scientists *English speakers are likely exposed to/aware of*, since Wikipedias coverage and bias probably mirrors that of English pop-culture as well.
+
+
 
 ## Data
 
@@ -116,6 +125,7 @@ The remaining data after processing and removing missing values.
 ### Potential Next steps
 1. Quality and Coverage could be compared or merged into a weighted calculation.
 1. Some cleanup of page data could still be useful, as category and list pages are present.
+1. There is likely a strong correlation of quality and coverage with wealth and education. This data could be merged and included in the analysis.
 
 
 
